@@ -26,11 +26,12 @@ pg1Soup = BeautifulSoup(page1);
   
 #data-name='HP ...'    is an attribute
 #soup.find() only outputs 1, unlike find_all
-pg1_items=pg1Soup.find_all("div", {"class" : "list-item"});
+#pg1_items=pg1Soup.find_all("div", {"class" : "list-item"});
+pg1_items=pg1Soup.find_all("div", {"data-name" : ""} );
 itemnum=0;
 for div in pg1_items:
     itemnum=itemnum+1;#Check how many items was extracted
-   # print div;   #print everything from the #<div class="list-item"   .....</div>
+    print div;   #print everything from the #<div class="list-item"   .....</div>
 
 print itemnum; #YES! itemnum=24 after the for loop, which corresponds to the BB listing 1-24
                 #Have not checked whether all of them have the right data, but 1st 3 div does
