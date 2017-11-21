@@ -1,38 +1,91 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Nov 14 23:05:09 2017
+import bs4
+from urllib.request import urlopen as uReq
+from bs4 import BeautifulSoup as soup
 
-@author: Cindy Yee
-References:
-    https://www.analyticsvidhya.com/blog/2015/10/beginner-guide-web-scraping-beautiful-soup-python/
-    https://medium.freecodecamp.org/how-to-scrape-websites-with-python-and-beautifulsoup-5946935d93fe
-    https://www.crummy.com/software/BeautifulSoup/bs4/doc/
-"""
+bb_page1 = 'https://www.bestbuy.com/site/searchpage.jsp?cp=1&searchType=search&_dyncharset=UTF-8&ks=960&sc=Global&list=y&usc=All%20Categories&type=page&id=pcat17071&iht=n&seeAll=&browsedCategory=pcmcat138500050001&st=categoryid%24pcmcat138500050001&qp=&sp=-displaydate%20skuidsaas'
+bb_page2 = 'https://www.bestbuy.com/site/searchpage.jsp?cp=2&searchType=search&_dyncharset=UTF-8&ks=960&sc=Global&list=y&usc=All%20Categories&type=page&id=pcat17071&iht=n&seeAll=&browsedCategory=pcmcat138500050001&st=categoryid%24pcmcat138500050001&qp=&sp=-displaydate%20skuidsaas'
+bb_page3 = 'https://www.bestbuy.com/site/searchpage.jsp?cp=3&searchType=search&_dyncharset=UTF-8&ks=960&sc=Global&list=y&usc=All%20Categories&type=page&id=pcat17071&iht=n&seeAll=&browsedCategory=pcmcat138500050001&st=categoryid%24pcmcat138500050001&qp=&sp=-displaydate%20skuidsaas'
+bb_page4 = 'https://www.bestbuy.com/site/searchpage.jsp?cp=4&searchType=search&_dyncharset=UTF-8&ks=960&sc=Global&list=y&usc=All%20Categories&type=page&id=pcat17071&iht=n&seeAll=&browsedCategory=pcmcat138500050001&st=categoryid%24pcmcat138500050001&qp=&sp=-displaydate%20skuidsaas'
+bb_page5 = 'https://www.bestbuy.com/site/searchpage.jsp?cp=5&searchType=search&_dyncharset=UTF-8&ks=960&sc=Global&list=y&usc=All%20Categories&type=page&id=pcat17071&iht=n&seeAll=&browsedCategory=pcmcat138500050001&st=categoryid%24pcmcat138500050001&qp=&sp=-displaydate%20skuidsaas'
 
-import urllib2; #used to query a website
-from bs4 import BeautifulSoup #used to parse the data returned from the website
+#opening up connection, grabbing the page using urllib
+uClient1 = uReq(bb_page1)
+uClient2 = uReq(bb_page2)
+uClient3 = uReq(bb_page3)
+uClient4 = uReq(bb_page4)
+uClient5 = uReq(bb_page5)
+page_html1 = uClient1.read()
+page_html2 = uClient2.read()
+page_html3 = uClient3.read()
+page_html4 = uClient4.read()
+page_html5 = uClient5.read()
+uClient1.close()
+uClient2.close()
+uClient3.close()
+uClient4.close()
+uClient5.close()
+#html parsing
+page_soup1 = soup(page_html1, "html.parser")
+page_soup2 = soup(page_html2, "html.parser")
+page_soup3 = soup(page_html3, "html.parser")
+page_soup4 = soup(page_html4, "html.parser")
+page_soup5 = soup(page_html5, "html.parser")
 
-#url link
-BB_pg1="https://www.bestbuy.com/site/searchpage.jsp?cp=1&searchType=search&_dyncharset=UTF-8&ks=960&sc=Global&list=y&usc=All%20Categories&type=page&id=pcat17071&iht=n&seeAll=&browsedCategory=pcmcat138500050001&st=categoryid%24pcmcat138500050001&qp=&sp=-displaydate%20skuidsaas";
+#grabs each product
+items1 = page_soup1.findAll("div", {"class":"list-item"})
+items2 = page_soup2.findAll("div", {"class":"list-item"})
+items3 = page_soup3.findAll("div", {"class":"list-item"})
+items4 = page_soup4.findAll("div", {"class":"list-item"})
+items5 = page_soup5.findAll("div", {"class":"list-item"})
 
-#Query the website and return the html to the variable 'page1'
-page1 = urllib2.urlopen(BB_pg1);
+'''
+filename = "bestbuy2.csv"
+f = open(filename, "w")
+headers = " brand, product_name\n"
+f.write(headers)
+f.write("")
+'''
 
-# parse the html using beautiful soup and store in variable `pg1Soup`
-pg1Soup = BeautifulSoup(page1);
+for item in items1:
+    product = item["data-title"]
+    price = item["data-price"]
 
-#print pg1Soup.prettify(); #this prints everything from the html "Inspect"
+    print("Product:" + product)
+    print("Price: $" + price)
+    #f.write(product + "," + price + "\n\n")
 
-  
-#data-name='HP ...'    is an attribute
-#soup.find() only outputs 1, unlike find_all
-#pg1_items=pg1Soup.find_all("div", {"class" : "list-item"});
-pg1_items=pg1Soup.find_all("div", {"data-name" : ""} );
-itemnum=0;
-for div in pg1_items:
-    itemnum=itemnum+1;#Check how many items was extracted
-    print div;   #print everything from the #<div class="list-item"   .....</div>
+for item in items2:
+    product = item["data-title"]
+    price = item["data-price"]
 
-print itemnum; #YES! itemnum=24 after the for loop, which corresponds to the BB listing 1-24
-                #Have not checked whether all of them have the right data, but 1st 3 div does
+    print("Product:" + product)
+    print("Price: $" + price)
+   # f.write(product + "," + price + "\n\n")
 
+for item in items3:
+    product = item["data-title"]
+    price = item["data-price"]
+
+    print("Product:" + product)
+    print("Price: $" + price)
+    #f.write(product + "," + price + "\n\n")
+
+for item in items4:
+    product = item["data-title"]
+    price = item["data-price"]
+
+    print("Product:" + product)
+    print("Price: $" + price)
+   # f.write(product + "," + price + "\n\n")
+
+for item in items5:
+    product = item["data-title"]
+    price = item["data-price"]
+
+    print("Product:" + product)
+    print("Price: $" + price)
+'''
+    f.write(product + "," + price + "\n\n")
+
+f.close()
+'''
