@@ -17,7 +17,7 @@ class Article(object):
     def __lt__(self,other):
         return (self.date < other.date);
     def __repr__(self):
-        return ("Title: " + self.title + "\nDate: " + self.date.strftime("%m/%d/%y") + "\nURL: " + self.url);
+        return ("Title: " + self.title + "\nDate: " + self.date.strftime("%B %d, %Y") + "\nURL: " + self.url);
 #        return ("Title: " + self.title + "\nDate: " + str(self.date) + "\nURL: " + self.url);
 
 		
