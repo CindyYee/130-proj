@@ -59,7 +59,7 @@ def crawler(startpage, maxpages=100, singledomain=True):
                     page_queue.append(link)
 
     print('{0} pages crawled, {1} links failed.'.format(pages, failed))
-    print(page_queue)
+    print("Number of links found: ", + len(page_queue))
 
 
 # -------------------------------------------------------------------------------
@@ -138,6 +138,6 @@ def url_in_list(url, listobj):
 
 if __name__ == "__main__":
     START = default_timer()
-    crawler('https://www.laptopmag.com/', maxpages=10, singledomain=True)
+    crawler('https://www.laptopmag.com/latest', maxpages=10, singledomain=True)
     END = default_timer()
     print('Elapsed time (seconds) = ' + str(END - START))
