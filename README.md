@@ -13,4 +13,7 @@ The python modules we used included
   -BeautifulSoup
   -urllib
   -datetime
+  -HeapQ
+  -Collections
+  -requests
   
